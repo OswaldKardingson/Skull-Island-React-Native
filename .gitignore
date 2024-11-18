@@ -1,0 +1,25 @@
+# React Native gitignore example
+
+# Node modules
+node_modules/
+
+# Logs
+*.log
+*.tlog
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Generated files
+android/app/build/
+ios/build/
+
+# IDE-specific files
+.vscode/
+.idea/
+*.iml
+
+# Debug files
+*.bak
+*.swp
