@@ -3,7 +3,7 @@
 ```markdown
 # Skull Island - React Native
 
-This is the React Native implementation of the Skull Island app. Originally built for Android, this updated version supports both **Android** and **iOS**, following the Free and Open Source Software (FOSS) ethos.
+This is the React Native implementation of the Skull Island app. Originally built for Android, this updated version supports both **Android** and **iOS**.
 
 ## 📖 Overview
 
