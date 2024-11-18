@@ -136,13 +136,4 @@ This project is licensed under the **MIT License**. See the [LICENSE](LICENSE) f
 For any questions or issues, please contact us by creating an issue in this repository.
 ```
 
----
 
-### Key Updates in README:
-1. **Overview** includes cross-platform support and modernization details.
-2. **Features** lists project highlights and modular architecture.
-3. **Installation and Testing** sections tailored for React Native.
-4. **Changelog** emphasizes migration and refactoring efforts.
-5. **Deployment** instructions for Android and iOS are updated.
-
-Let me know if you need further customization or additions!
