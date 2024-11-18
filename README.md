@@ -134,6 +134,4 @@ This project is licensed under the **MIT License**. See the [LICENSE](LICENSE) f
 ## 📧 Support
 
 For any questions or issues, please contact us by creating an issue in this repository.
-```
-
 
