@@ -1,5 +1,4 @@
 # Skull-Island-React-Native
-Here's an updated **README.md** you can copy and paste for your repository:
 
 ```markdown
 # Skull Island - React Native
