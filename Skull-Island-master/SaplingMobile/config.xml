@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget id="pirate.sapling.litewallet" version="2.3.0"
+  xmlns="http://www.w3.org/ns/widgets"
+  xmlns:cdv="http://cordova.apache.org/ns/1.0"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <name>Pirate Wallet</name>
+    <description>
+        Pirate Wallet
+    </description>
+    <author email="marketing@pirate.black" href="https://pirate.black">
+        Forge
+    </author>
+    <content src="index.html" />
+    <access origin="*" />
+    <allow-navigation href="http://localhost:8080/*" />
+    <allow-intent href="http://*/*" />
+    <allow-intent href="https://*/*" />
+    <allow-intent href="tel:*" />
+    <allow-intent href="sms:*" />
+    <allow-intent href="mailto:*" />
+    <allow-intent href="geo:*" />
+    <platform name="android">
+        <icon src="./src/assets/Pirate_Logo_Skull_Gold.png" />
+        <allow-intent href="market:*" />
+        <splash src="src/assets/png/splash.png" density="port-hdpi"/>
+        <splash src="src/assets/png/splash.png" density="port-ldpi"/>
+        <splash src="src/assets/png/splash.png" density="port-mdpi"/>
+        <splash src="src/assets/png/splash.png" density="port-xhdpi"/>
+        <splash src="src/assets/png/splash.png" density="port-xxhdpi"/>
+        <preference name="android-targetSdkVersion" value="31" />
+        <preference name="FadeSplashScreenDuration" value="1000"/>
+        <preference name="AutoHideSplashScreen" value="true" />
+        <preference name="SplashScreenDelay" value="5000" />
+        <preference name="ShowSplashScreenSpinner" value="false"/>
+        <preference name="SplashMaintainAspectRatio" value="true" />
+        <preference name="SplashScreenSpinnerColor" value="white" />
+        <preference name="AndroidXEnabled" value="true" />
+        <preference name="AndroidPersistentFileLocation" value="Compatibility" />
+        <edit-config file="AndroidManifest.xml" mode="merge" target="/manifest/application">
+            <application android:usesCleartextTraffic="true" />
+            <application android:largeHeap="true" />
+        </edit-config>
+	      <edit-config file="AndroidManifest.xml" mode="merge" target="/manifest/uses-permission">
+              <uses-permission android:name="android.permission.INTERNET" />
+        </edit-config>
+    </platform>
+    <platform name="ios">
+        <allow-intent href="itms:*" />
+        <allow-intent href="itms-apps:*" />
+        <splash src="src/assets/png/splash.png"/>
+        <preference name="FadeSplashScreenDuration" value="1000"/>
+        <preference name="AutoHideSplashScreen" value="true" />
+        <preference name="SplashScreenDelay" value="10000" />
+        <preference name="ShowSplashScreenSpinner" value="false"/>
+        <preference name="SplashMaintainAspectRatio" value="true" />
+        <preference name="SplashScreenSpinnerColor" value="white" />
+        <preference name="UseSwiftLanguageVersion" value="5" />
+        <preference name="target-device" value="universal" />
+        <preference name="deployment-target" value="11.0" />
+        <preference name="CordovaWebViewEngine" value="CDVWebViewEngine" />
+        <preference name="CordovaDefaultWebViewEngine" value="CDVWebViewEngine" />
+        <preference name="EnableViewportScale" value="true" />
+    </platform>
+    <preference name="KeepRunning" value="true" />
+    <preference name="Orientation" value="portrait" />
+    <preference name="UIWebViewDecelerationSpeed" value="fast" />
+</widget>
