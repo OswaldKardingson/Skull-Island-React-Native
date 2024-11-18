@@ -77,17 +77,32 @@ npm test
 
 ```
 Skull-Island-React-Native/
-├── android/        # Android-specific code
-├── ios/            # iOS-specific code
-├── src/
-│   ├── components/ # Reusable components
-│   ├── screens/    # App screens
-│   ├── utils/      # Utility functions
-│   ├── assets/     # Static assets (images, etc.)
-├── __tests__/      # Unit tests
-├── package.json    # Project configuration
-├── babel.config.js # Babel configuration
-└── .gitignore      # Git ignore rules
+├── android/                     # Android-specific files
+│   ├── app/                     # Contains the main Android app code
+│   ├── gradle/                  # Gradle build system files
+│   ├── settings.gradle          # Gradle settings
+│   ├── build.gradle             # Main build configuration for Android
+│   └── ...                      # Other Android-related files
+├── ios/                         # iOS-specific files
+│   ├── SkullIslandReactNative/  # Contains the main iOS app code
+│   ├── Podfile                  # CocoaPods dependencies
+│   ├── Info.plist               # iOS app configuration
+│   └── ...                      # Other iOS-related files
+├── src/                         # Source files
+│   ├── components/              # Reusable React Native components
+│   ├── screens/                 # Application screens/views
+│   ├── utils/                   # Utility/helper functions
+│   ├── App.js                   # Main React Native app entry point
+│   └── index.js                 # React Native entry file
+├── assets/                      # Static assets (e.g., images, icons)
+├── node_modules/                # Node.js dependencies
+├── metro.config.js              # Metro bundler configuration
+├── package.json                 # Project metadata and dependencies
+├── babel.config.js              # Babel configuration for React Native
+├── README.md                    # Project documentation
+├── .gitignore                   # Git ignored files
+├── app.json                     # Application configuration
+└── index.js                     # React Native bootstrap file
 ```
 
 ---
