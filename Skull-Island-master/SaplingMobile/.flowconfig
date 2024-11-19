@@ -1,13 +1,1 @@
 [ignore]
-.*/plugins/.*
-.*/platforms/.*
-.*/node_modules/.*
-
-[include]
-./src/.*
-
-[libs]
-
-[lints]
-
-[options]
