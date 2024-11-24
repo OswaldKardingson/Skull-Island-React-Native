@@ -1,134 +1,82 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-
-import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
-
+import React, { useState } from 'react';
+import PropTypes from 'prop-types';
+import { useSelector, useDispatch } from 'react-redux';
+import { saltHashPassword, PwSalt } from '../utils/hash';
+import { setActivePassword } from '../actions/Context';
 import {
-  saltHashPassword,
-  PwSalt}from '../utils/hash'
+  BlackBackground,
+  LoginSectionOverscroll,
+  LoginSection,
+  LoginHeaderFade,
+  LoginFade,
+  LoginTitle,
+  LoginPWTitle,
+  LoginPWArea,
+  LoginPWInput,
+  LoginPWGradientCapLeft,
+  LoginPWGradientCapRight,
+  LoginPWRedText,
+} from '../pagecomponents/PirateLogin';
 
-import { setActivePassword } from '../actions/Context'
+const LoginPage = ({ onComplete }) => {
+  const [password, setPassword] = useState('');
+  const [invalidPassword, setInvalidPassword] = useState(false);
+  const [noteVisible, setNoteVisible] = useState('visible');
+  const [loginVisible, setLoginVisible] = useState('none');
 
-import {
-    BlackBackground,
-  }  from '../pagecomponents/PirateShared'
+  const settings = useSelector((state) => state.settings);
+  const dispatch = useDispatch();
 
-import {
-    LoginSectionOverscroll,
-    LoginSection,
-    LoginHeaderFade,
-    LoginFade,
-    LoginTitle,
-    LoginPWTitle,
-    LoginPWArea,
-    LoginPWInput,
-    LoginPWGradientCapLeft,
-    LoginPWGradientCapRight,
-    LoginPWRedText,
-  }  from '../pagecomponents/PirateLogin'
+  const confirmNote = () => {
+    setNoteVisible('none');
+    setLoginVisible('visible');
+  };
 
-class LoginPage extends React.Component {
-
-  constructor (props) {
-    super(props)
-
-    this.state = {
-      invalidPassword: false,
-      password: '',
-      noteVisible: 'visible',
-      loginVisible: 'none'
-    }
-
-    this.setPassword= this.setPassword.bind(this)
-    this.confirmNote = this.confirmNote.bind(this)
-  }
-
-  confirmNote () {
-    this.setState({
-      noteVisible: 'none',
-      loginVisible: 'visible'
-    })
-  }
-
-    async setPassword (p) {
-
-      if (p.length >= 8) {
-        var pwHash = saltHashPassword(p, PwSalt)
-        if (pwHash == this.props.settings.password) {
-          this.props.setActivePassword(p)
-          this.props.onComplete()
-          this.setState({
-            password: '',
-          })
-        } else {
-          this.setState({
-            invalidPassword: true,
-            password: p
-          })
-        }
+  const handleSetPassword = (p) => {
+    if (p.length >= 8) {
+      const pwHash = saltHashPassword(p, PwSalt);
+      if (pwHash === settings.password) {
+        dispatch(setActivePassword(p));
+        onComplete();
+        setPassword('');
       } else {
-        this.setState({
-          password: p
-        })
+        setInvalidPassword(true);
+        setPassword(p);
       }
+    } else {
+      setPassword(p);
     }
+  };
 
-    render () {
-      return (
-        <BlackBackground>
-          <LoginHeaderFade>
-            <LoginTitle>
-              {'Wallet Login'}
-            </LoginTitle>
-          </LoginHeaderFade>
-          <LoginFade>
-          </LoginFade>
-          <LoginSectionOverscroll>
-            <LoginSection>
-              <LoginPWTitle>
-                {'Password:'}
-              </LoginPWTitle>
-              <LoginPWArea>
-                <LoginPWGradientCapLeft/>
-                <LoginPWInput
-                  type="password"
-                  value={this.state.password}
-                  onChange={e => this.setPassword(e.target.value)} />
-                <LoginPWGradientCapRight/>
-              </LoginPWArea>
-              <LoginPWRedText>
-                {'Enter your wallet password'}
-              </LoginPWRedText>
-            </LoginSection>
-          </LoginSectionOverscroll>
-        </BlackBackground>
-      )
-    }
-  }
-
+  return (
+    <BlackBackground>
+      <LoginHeaderFade>
+        <LoginTitle>{'Wallet Login'}</LoginTitle>
+      </LoginHeaderFade>
+      <LoginFade />
+      <LoginSectionOverscroll>
+        <LoginSection>
+          <LoginPWTitle>{'Password:'}</LoginPWTitle>
+          <LoginPWArea>
+            <LoginPWGradientCapLeft />
+            <LoginPWInput
+              secureTextEntry // For React Native compatibility
+              value={password}
+              onChangeText={(text) => handleSetPassword(text)}
+            />
+            <LoginPWGradientCapRight />
+          </LoginPWArea>
+          {invalidPassword && (
+            <LoginPWRedText>{'Invalid Password. Try Again.'}</LoginPWRedText>
+          )}
+        </LoginSection>
+      </LoginSectionOverscroll>
+    </BlackBackground>
+  );
+};
 
 LoginPage.propTypes = {
-  setActivePassword: PropTypes.func.isRequired,
-  settings: PropTypes.object.isRequired,
   onComplete: PropTypes.func.isRequired,
-  context: PropTypes.object.isRequired
-}
+};
 
-function mapStateToProps (state) {
-  return {
-    settings: state.settings,
-    context: state.context
-  }
-}
-
-function matchDispatchToProps (dispatch) {
-  return bindActionCreators(
-    {
-      setActivePassword
-    },
-    dispatch
-  )
-}
-
-export default connect(mapStateToProps, matchDispatchToProps)(LoginPage)
+export default LoginPage;

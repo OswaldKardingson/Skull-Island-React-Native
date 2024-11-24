@@ -1,1 +1,47 @@
-Placeholder for asset style configurations.
+{
+    "colors": {
+      "primary": "#bb9645",
+      "secondary": "#303133",
+      "background": "#000000",
+      "textPrimary": "#ffffff",
+      "textSecondary": "#737373",
+      "error": "#e54212",
+      "success": "#95c623",
+      "warning": "#ffd700"
+    },
+    "fonts": {
+      "default": "System",
+      "heading": "Arial-BoldMT",
+      "body": "Arial",
+      "monospace": "CourierNewPS-BoldMT"
+    },
+    "fontSizes": {
+      "small": 12,
+      "medium": 16,
+      "large": 20,
+      "xLarge": 24
+    },
+    "spacings": {
+      "xSmall": 4,
+      "small": 8,
+      "medium": 16,
+      "large": 24,
+      "xLarge": 32
+    },
+    "borderRadii": {
+      "small": 4,
+      "medium": 8,
+      "large": 16
+    },
+    "elevations": {
+      "low": 2,
+      "medium": 4,
+      "high": 8
+    },
+    "dimensions": {
+      "buttonHeight": 50,
+      "inputHeight": 40,
+      "iconSize": 24
+    }
+  }
+  

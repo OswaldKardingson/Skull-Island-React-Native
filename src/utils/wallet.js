@@ -1,44 +1,50 @@
-var bitcoinjs = require('bitgo-utxo-lib')
-var bip32utils = require('bip32-utils')
+import * as bip39 from 'react-native-bip39'; // For handling mnemonics
+import * as bitcoin from 'bitcoinjs-lib'; // For HD wallet and key derivation
 
-
-// Hierarchical Deterministic wallet
-function phraseToSecretItems (phraseStr, coin) {
-  // Seed key, make it fucking strong
-  // phraseStr: string
-
-  const seedHex = Buffer.from(phraseStr.slice(0, 64)).toString('hex')
-
-  //Set Network
-  let network = bitcoinjs.networks[coin.networkname]
-
-  // chains
-  const hdNode = bitcoinjs.HDNode.fromSeedHex(seedHex, network)
-  var chain = new bip32utils.Chain(hdNode)
-
-  // Creates 3 address from the same chain
-  for (var k = 0; k < 2; k++) {
-    chain.next()
-  }
-
-  // Get private keys from them
-  var secretItems = chain.getAll().map(function (x) {
-    // Get private key (WIF)
-    const pkWIF = chain.derive(x).keyPair.toWIF()
-    //Get keyPair
-    const keyPair = bitcoinjs.ECPair.fromWIF(pkWIF, network)
-    //Get Address
-    const address = keyPair.getAddress()
-
-    return {
-      address,
-      privateKey: pkWIF
+/**
+ * Generates secret items (addresses and private keys) from a mnemonic phrase.
+ * @param {string} phraseStr - The mnemonic phrase (12/24 words).
+ * @param {object} coin - Coin configuration (e.g., { networkname: 'bitcoin' }).
+ * @returns {Array} Array of objects containing address and privateKey.
+ */
+export async function phraseToSecretItems(phraseStr, coin) {
+  try {
+    // Validate the mnemonic
+    if (!bip39.validateMnemonic(phraseStr)) {
+      throw new Error('Invalid mnemonic phrase');
     }
-  })
 
-  return secretItems
+    // Generate seed from the mnemonic
+    const seedBuffer = await bip39.mnemonicToSeed(phraseStr);
+
+    // Set network
+    const network = bitcoin.networks[coin.networkname];
+
+    // Derive master node
+    const root = bitcoin.bip32.fromSeed(seedBuffer, network);
+
+    // Derive child keys (change `m/44'/0'/0'/0/n` for different derivation paths)
+    const secretItems = [];
+    for (let index = 0; index < 3; index++) {
+      const child = root.derivePath(`m/44'/0'/0'/0/${index}`); // BIP44 standard
+
+      // Get address from the derived public key
+      const { address } = bitcoin.payments.p2pkh({
+        pubkey: child.publicKey,
+        network,
+      });
+
+      // Store address and private key
+      secretItems.push({
+        address,
+        privateKey: child.toWIF(),
+      });
+    }
+
+    return secretItems;
+  } catch (error) {
+    throw new Error(`Error deriving keys: ${error.message}`);
+  }
 }
 
-module.exports = {
-  phraseToSecretItems: phraseToSecretItems
-}
+export default { phraseToSecretItems };

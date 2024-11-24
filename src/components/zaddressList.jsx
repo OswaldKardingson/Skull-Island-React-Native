@@ -56,7 +56,7 @@ export const Col2Div = styled.div`
 export const Col2Top = styled.div`
   display: flex;
   align-items: center;
-  color: #907435
+  color: #907435;
   space: nowrap;
   width: ${props => (props.theme.width * 0.45) + 'px'};
   height: ${props => ((props.theme.width * 0.125)/2) + 'px'};
@@ -93,7 +93,7 @@ export const Col4Div = styled.div`
 export const Col4Top = styled.div`
   display: flex;
   align-items: center;
-  color: #907435
+  color: #907435;
   width: ${props => (props.theme.width * 0.35) + 'px'};
   height: ${props => ((props.theme.width * 0.125)/2) + 'px'};
   font-size: ${props => (((props.theme.width * 0.45)/20)*1.5) + 'px'};
