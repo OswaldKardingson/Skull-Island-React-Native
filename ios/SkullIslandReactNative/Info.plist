@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <!-- Localization -->
+    <key>CFBundleDevelopmentRegion</key>
+    <string>en</string>
+
+    <!-- App Display Name -->
+    <key>CFBundleDisplayName</key>
+    <string>Skull Island</string>
+
+    <!-- Executable Name -->
+    <key>CFBundleExecutable</key>
+    <string>$(EXECUTABLE_NAME)</string>
+
+    <!-- Bundle Identifier -->
+    <key>CFBundleIdentifier</key>
+    <string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+
+    <!-- Info Dictionary Version -->
+    <key>CFBundleInfoDictionaryVersion</key>
+    <string>6.0</string>
+
+    <!-- Bundle Name -->
+    <key>CFBundleName</key>
+    <string>SkullIslandReactNative</string>
+
+    <!-- Package Type -->
+    <key>CFBundlePackageType</key>
+    <string>APPL</string>
+
+    <!-- App Version -->
+    <key>CFBundleShortVersionString</key>
+    <string>1.0</string>
+    <key>CFBundleVersion</key>
+    <string>1</string>
+
+    <!-- App Signature -->
+    <key>CFBundleSignature</key>
+    <string>????</string>
+
+    <!-- Required iOS Settings -->
+    <key>LSRequiresIPhoneOS</key>
+    <true/>
+    <key>UILaunchStoryboardName</key>
+    <string>LaunchScreen</string>
+
+    <!-- Supported Architectures -->
+    <key>UIRequiredDeviceCapabilities</key>
+    <array>
+        <string>arm64</string>
+    </array>
+
+    <!-- Supported Interface Orientations -->
+    <key>UISupportedInterfaceOrientations</key>
+    <array>
+        <string>UIInterfaceOrientationPortrait</string>
+        <string>UIInterfaceOrientationLandscapeLeft</string>
+        <string>UIInterfaceOrientationLandscapeRight</string>
+    </array>
+
+    <!-- App Transport Security -->
+    <key>NSAppTransportSecurity</key>
+    <dict>
+        <!-- For local networking during development -->
+        <key>NSAllowsLocalNetworking</key>
+        <true/>
+        <!-- Do not set arbitrary loads to true without a valid reason -->
+        <key>NSAllowsArbitraryLoads</key>
+        <false/>
+    </dict>
+
+    <!-- Privacy Descriptions -->
+    <key>NSLocationWhenInUseUsageDescription</key>
+    <string>We need your location to provide location-based services.</string>
+
+    <!-- Status Bar Appearance -->
+    <key>UIViewControllerBasedStatusBarAppearance</key>
+    <false/>
+</dict>
+</plist>
