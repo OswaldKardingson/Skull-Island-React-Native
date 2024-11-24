@@ -1,11 +1,23 @@
 import React from 'react';
-import { Text, View } from 'react-native';
+import { Provider } from 'react-redux';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+
+import { AuthProvider } from './context/AuthContext';
+import store from './store/store';
+import AppNavigator from './navigation/AppNavigator'; // Assuming you have AppNavigator set up for navigation
+
+const Stack = createStackNavigator();
 
 const App = () => {
   return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>Welcome to Skull Island React Native!</Text>
-    </View>
+    <Provider store={store}>
+      <AuthProvider>
+        <NavigationContainer>
+          <AppNavigator />
+        </NavigationContainer>
+      </AuthProvider>
+    </Provider>
   );
 };
 
