@@ -1,6 +1,6 @@
 // @flow
 
-export SCREEN_SIZE = {
+export const SCREEN_SIZE = {
   height: props => props.theme.height,
   width: props => props.theme.width,
   topBuffer: props => props.theme.topBuffer,

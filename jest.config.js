@@ -1,10 +1,10 @@
 module.exports = {
-  preset: 'react-native', // Use React Native preset for Jest
+  preset: 'react-native',
   transform: {
     '^.+\\.[tj]sx?$': 'babel-jest', // Use Babel to transform JS, JSX, TS, and TSX files
   },
   transformIgnorePatterns: [
-    'node_modules/(?!(react-native|@react-native|@react-native-async-storage|react-native-safe-area-context|react-navigation|react-native-vector-icons|react-native-reanimated)/)', // Ensure React Native dependencies are transformed
+    'node_modules/(?!(react-native|@react-native|@react-native-async-storage|react-native-safe-area-context|react-navigation|react-native-vector-icons|react-native-reanimated|@react-native-community|@react-navigation)/)', // Transform these node_modules dependencies
   ],
   moduleFileExtensions: ['js', 'jsx', 'ts', 'tsx', 'json', 'node'], // Recognize these file extensions
   testEnvironment: 'jsdom', // Use jsdom for DOM-related testing
@@ -26,4 +26,6 @@ module.exports = {
     '!**/jest.setup.js', // Ignore the setup file
   ],
   coverageDirectory: '<rootDir>/coverage', // Output directory for coverage
+  cacheDirectory: '<rootDir>/tmp/jest_cache', // Cache directory for Jest
+  timers: 'modern', // Use modern timers for better testing
 };

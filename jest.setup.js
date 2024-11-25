@@ -1,13 +1,12 @@
 // jest.setup.js
-
-import '@testing-library/jest-native/extend-expect'; // Adds custom matchers for React Native testing
+import '@testing-library/jest-native/extend-expect';
 import mockAsyncStorage from '@react-native-async-storage/async-storage/jest/async-storage-mock';
 import mockSafeAreaContext from 'react-native-safe-area-context/jest/mock';
 
-// Mock AsyncStorage for testing components using local storage
+// Mock AsyncStorage
 jest.mock('@react-native-async-storage/async-storage', () => mockAsyncStorage);
 
-// Mock SafeAreaContext to handle components using SafeAreaProvider
+// Mock SafeAreaContext
 jest.mock('react-native-safe-area-context', () => mockSafeAreaContext);
 
 // Mock React Navigation dependencies
@@ -27,11 +26,7 @@ jest.mock('react-native/Libraries/Animated/NativeAnimatedHelper', () => ({
   removeListeners: jest.fn(),
 }));
 
-// Optional: Mock third-party libraries used in the project (if applicable)
-// Example:
-// jest.mock('third-party-library', () => ({ mockFunction: jest.fn() }));
-
-// Silence specific warnings (e.g., deprecated methods) to declutter test logs
+// Silence console warnings for deprecated methods
 const originalConsoleWarn = console.warn;
 console.warn = (...args) => {
   if (args[0]?.includes('deprecated')) {
@@ -40,7 +35,7 @@ console.warn = (...args) => {
   originalConsoleWarn(...args);
 };
 
-// Silence errors from other unmocked warnings (e.g., missing native modules)
+// Silence errors for missing modules
 const originalConsoleError = console.error;
 console.error = (...args) => {
   if (args[0]?.includes('NativeAnimatedHelper')) {
