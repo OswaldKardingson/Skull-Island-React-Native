@@ -1,4 +1,3 @@
-// jest.setup.js
 import '@testing-library/jest-native/extend-expect';
 import mockAsyncStorage from '@react-native-async-storage/async-storage/jest/async-storage-mock';
 import mockSafeAreaContext from 'react-native-safe-area-context/jest/mock';
@@ -18,6 +17,16 @@ jest.mock('@react-navigation/native', () => {
     useRoute: jest.fn(),
     NavigationContainer: jest.fn(({ children }) => children),
   };
+});
+
+// Mock Reanimated
+jest.mock('react-native-reanimated', () => {
+  const Reanimated = require('react-native-reanimated/mock');
+
+  // Override the `call` method as it is not implemented in the mock
+  Reanimated.default.call = jest.fn();
+
+  return Reanimated;
 });
 
 // Suppress Animated NativeDriver warnings during tests
