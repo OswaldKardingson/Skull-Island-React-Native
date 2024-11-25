@@ -17,7 +17,8 @@
     "metro": "^0.76.9",
     "metro-config": "^0.81.0",
     "metro-react-native-babel-preset": "^0.77.0",
-    "react": "18.2.0",
+    "react": "^18.3.0",
+    "react-dom": "^18.3.0",
     "react-native": "0.76.2",
     "react-native-camera": "^4.2.1",
     "react-native-config": "^1.5.3",
@@ -42,6 +43,7 @@
     "jest-environment-jsdom": "^29.7.0",
     "jest-junit": "^16.0.0",
     "metro-react-native-babel-transformer": "^0.77.0",
+    "react-native-web": "^0.19.13",
     "react-test-renderer": "18.2.0"
   }
 }

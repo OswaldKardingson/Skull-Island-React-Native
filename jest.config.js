@@ -14,7 +14,7 @@ module.exports = {
   },
   verbose: true, // Detailed test results in the console
   moduleNameMapper: {
-    '^react-native$': 'react-native-web', // Map React Native to web for compatibility
+    '^react-native$': require.resolve('react-native-web'), // Map React Native to web correctly
     '^@/(.*)$': '<rootDir>/src/$1', // Alias for importing from src
     '^src/(.*)$': '<rootDir>/src/$1', // Add mapping for 'src' alias
   },
