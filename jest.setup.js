@@ -1,5 +1,3 @@
-// jest.setup.js
-
 import '@testing-library/jest-native/extend-expect';
 import mockAsyncStorage from '@react-native-async-storage/async-storage/jest/async-storage-mock';
 
@@ -16,6 +14,12 @@ jest.mock('react-native-safe-area-context', () => {
     useSafeAreaInsets: () => ({ top: 0, bottom: 0, left: 0, right: 0 }),
     useSafeAreaFrame: () => ({ x: 0, y: 0, width: 0, height: 0 }),
   };
+});
+
+// Mock Modal
+jest.mock('react-native/Libraries/Modal/Modal', () => {
+  const { View } = require('react-native');
+  return ({ children }) => <View>{children}</View>;
 });
 
 // Mock React Navigation dependencies
@@ -69,6 +73,3 @@ console.error = (...args) => {
   }
   originalConsoleError(...args);
 };
-
-// Extend Jest's default timeout for long-running tests
-jest.setTimeout(10000); // Set timeout to 10 seconds

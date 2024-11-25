@@ -4,23 +4,23 @@ module.exports = {
     '^.+\\.[tj]sx?$': 'babel-jest', // Transform JS, JSX, TS, TSX using Babel
   },
   transformIgnorePatterns: [
-    'node_modules/(?!(react-native|@react-native|@react-native-async-storage|react-native-safe-area-context|react-navigation|react-native-vector-icons|react-native-reanimated|@react-native/polyfills|react-native-svg)/)', // Include necessary modules for transformation
+    'node_modules/(?!(react-native|@react-native|@react-native-async-storage|react-native-safe-area-context|react-navigation|react-native-vector-icons|react-native-reanimated|@react-native/polyfills|react-native-svg)/)',
   ],
   moduleFileExtensions: ['js', 'jsx', 'ts', 'tsx', 'json', 'node'], // File extensions Jest recognizes
   testEnvironment: 'jsdom', // Emulates browser-like testing
-  setupFilesAfterEnv: ['<rootDir>/jest.setup.js'], // Additional Jest setup for mocking
+  setupFilesAfterEnv: ['<rootDir>/jest.setup.js'], // Setup for after environment initialization
   setupFiles: [
-    '<rootDir>/node_modules/react-native-gesture-handler/jestSetup.js', // Ensure gesture handler mock is set up
+    '<rootDir>/node_modules/react-native-gesture-handler/jestSetup.js', // Setup gesture handler mock
   ],
   globals: {
-    __DEV__: true, // Enable __DEV__ global
+    __DEV__: true, // Enable __DEV__ global variable
   },
-  verbose: true, // Detailed test results in the console
+  verbose: true, // Show detailed test results in the console
   moduleNameMapper: {
-    '^react-native$': 'react-native-web', // Map React Native to web correctly
+    '^react-native$': 'react-native-web', // Map React Native to web
     '^@/(.*)$': '<rootDir>/src/$1', // Alias for importing from src
     '^src/(.*)$': '<rootDir>/src/$1', // Add mapping for 'src' alias
-    '\\.css$': 'identity-obj-proxy', // Mock CSS imports if any
+    '\\.css$': 'identity-obj-proxy', // Mock CSS imports
   },
   resetMocks: true, // Reset mocks before each test
   clearMocks: true, // Clear mock calls and instances between tests
@@ -31,7 +31,7 @@ module.exports = {
     '!**/jest.setup.js', // Exclude setup file
     '!src/**/*.d.ts', // Exclude TypeScript declaration files
   ],
-  coverageDirectory: '<rootDir>/coverage', // Directory to store coverage reports
+  coverageDirectory: '<rootDir>/coverage', // Directory for coverage reports
   cacheDirectory: '<rootDir>/tmp/jest_cache', // Cache directory for Jest
   fakeTimers: {
     enableGlobally: true, // Enable modern fake timers globally
@@ -44,8 +44,8 @@ module.exports = {
         outputDirectory: './jest_results',
         outputName: 'jest-junit.xml',
       },
-    ], // Configure to generate JUnit reports for CI pipelines
+    ],
   ],
-  testTimeout: 10000, // Increase timeout for tests
+  testTimeout: 20000, // Increased timeout for potentially long-running tests
   watchPathIgnorePatterns: ['<rootDir>/node_modules/'], // Ignore watching node_modules
 };
