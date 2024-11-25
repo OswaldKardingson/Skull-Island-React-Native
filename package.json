@@ -33,6 +33,7 @@
     "yup": "^1.4.0"
   },
   "devDependencies": {
+    "@babel/preset-react": "^7.25.9",
     "@react-native-community/cli": "^10.2.7",
     "@react-native-community/cli-platform-android": "^10.2.0",
     "@testing-library/react-native": "^12.8.1",
