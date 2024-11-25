@@ -1,12 +1,20 @@
 import '@testing-library/jest-native/extend-expect';
 import mockAsyncStorage from '@react-native-async-storage/async-storage/jest/async-storage-mock';
-import mockSafeAreaContext from 'react-native-safe-area-context/jest/mock';
 
 // Mock AsyncStorage
 jest.mock('@react-native-async-storage/async-storage', () => mockAsyncStorage);
 
-// Mock SafeAreaContext
-jest.mock('react-native-safe-area-context', () => mockSafeAreaContext);
+// Mock SafeAreaContext with a custom implementation
+jest.mock('react-native-safe-area-context', () => {
+  const { View } = require('react-native');
+  return {
+    SafeAreaProvider: ({ children }) => <View>{children}</View>,
+    SafeAreaConsumer: ({ children }) =>
+      children({ insets: { top: 0, bottom: 0, left: 0, right: 0 } }),
+    useSafeAreaInsets: () => ({ top: 0, bottom: 0, left: 0, right: 0 }),
+    useSafeAreaFrame: () => ({ x: 0, y: 0, width: 0, height: 0 }),
+  };
+});
 
 // Mock React Navigation dependencies
 jest.mock('@react-navigation/native', () => {
@@ -51,7 +59,10 @@ console.warn = (...args) => {
 // Silence errors for specific warnings
 const originalConsoleError = console.error;
 console.error = (...args) => {
-  if (args[0]?.includes('SpecificWarningToIgnore')) {
+  if (
+    args[0]?.includes('NativeSafeAreaContext') || // Example of a specific warning to suppress
+    args[0]?.includes('AnotherWarningToIgnore') // Add additional warnings to ignore as needed
+  ) {
     return;
   }
   originalConsoleError(...args);
