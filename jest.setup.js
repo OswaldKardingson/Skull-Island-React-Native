@@ -26,6 +26,16 @@ jest.mock('react-native/Libraries/Animated/NativeAnimatedHelper', () => ({
   removeListeners: jest.fn(),
 }));
 
+// Mock theme provider
+jest.mock('src/theme/default', () => ({
+  theme: {
+    height: 800,
+    width: 600,
+    topBuffer: 20,
+    bottomBuffer: 20,
+  },
+}));
+
 // Silence console warnings for deprecated methods
 const originalConsoleWarn = console.warn;
 console.warn = (...args) => {
