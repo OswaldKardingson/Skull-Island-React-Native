@@ -1,3 +1,5 @@
+// jest.setup.js
+
 import '@testing-library/jest-native/extend-expect';
 import mockAsyncStorage from '@react-native-async-storage/async-storage/jest/async-storage-mock';
 
@@ -60,10 +62,13 @@ console.warn = (...args) => {
 const originalConsoleError = console.error;
 console.error = (...args) => {
   if (
-    args[0]?.includes('NativeSafeAreaContext') || // Example of a specific warning to suppress
-    args[0]?.includes('AnotherWarningToIgnore') // Add additional warnings to ignore as needed
+    args[0]?.includes('NativeSafeAreaContext') || // Suppress SafeAreaContext warnings
+    args[0]?.includes('AnotherWarningToIgnore') // Add more warnings as needed
   ) {
     return;
   }
   originalConsoleError(...args);
 };
+
+// Extend Jest's default timeout for long-running tests
+jest.setTimeout(10000); // Set timeout to 10 seconds

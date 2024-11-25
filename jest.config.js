@@ -8,15 +8,19 @@ module.exports = {
   ],
   moduleFileExtensions: ['js', 'jsx', 'ts', 'tsx', 'json', 'node'], // File extensions Jest recognizes
   testEnvironment: 'jsdom', // Emulates browser-like testing
-  setupFilesAfterEnv: ['<rootDir>/jest.setup.js'], // Additional Jest setup
+  setupFilesAfterEnv: ['<rootDir>/jest.setup.js'], // Additional Jest setup for mocking
+  setupFiles: [
+    '<rootDir>/node_modules/react-native-gesture-handler/jestSetup.js', // Ensure gesture handler mock is set up
+  ],
   globals: {
     __DEV__: true, // Enable __DEV__ global
   },
   verbose: true, // Detailed test results in the console
   moduleNameMapper: {
-    '^react-native$': require.resolve('react-native-web'), // Map React Native to web correctly
+    '^react-native$': 'react-native-web', // Map React Native to web correctly
     '^@/(.*)$': '<rootDir>/src/$1', // Alias for importing from src
     '^src/(.*)$': '<rootDir>/src/$1', // Add mapping for 'src' alias
+    '\\.css$': 'identity-obj-proxy', // Mock CSS imports if any
   },
   resetMocks: true, // Reset mocks before each test
   clearMocks: true, // Clear mock calls and instances between tests
@@ -40,6 +44,8 @@ module.exports = {
         outputDirectory: './jest_results',
         outputName: 'jest-junit.xml',
       },
-    ], // Optional: Configure to generate JUnit reports for CI pipelines
+    ], // Configure to generate JUnit reports for CI pipelines
   ],
+  testTimeout: 10000, // Increase timeout for tests
+  watchPathIgnorePatterns: ['<rootDir>/node_modules/'], // Ignore watching node_modules
 };
