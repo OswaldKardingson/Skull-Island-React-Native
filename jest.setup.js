@@ -17,11 +17,15 @@ jest.mock('@react-navigation/native', () => {
     ...actualNav,
     useNavigation: jest.fn(),
     useRoute: jest.fn(),
+    NavigationContainer: jest.fn(({ children }) => children),
   };
 });
 
 // Suppress Animated NativeDriver warnings during tests
-jest.mock('react-native/Libraries/Animated/NativeAnimatedHelper');
+jest.mock('react-native/Libraries/Animated/NativeAnimatedHelper', () => ({
+  addListener: jest.fn(),
+  removeListeners: jest.fn(),
+}));
 
 // Optional: Mock third-party libraries used in the project (if applicable)
 // Example:
@@ -34,4 +38,13 @@ console.warn = (...args) => {
     return;
   }
   originalConsoleWarn(...args);
+};
+
+// Silence errors from other unmocked warnings (e.g., missing native modules)
+const originalConsoleError = console.error;
+console.error = (...args) => {
+  if (args[0]?.includes('NativeAnimatedHelper')) {
+    return;
+  }
+  originalConsoleError(...args);
 };
