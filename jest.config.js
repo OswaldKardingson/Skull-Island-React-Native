@@ -16,6 +16,7 @@ module.exports = {
   moduleNameMapper: {
     '^react-native$': 'react-native-web', // Map React Native to web for compatibility
     '^@/(.*)$': '<rootDir>/src/$1', // Alias for importing from src
+    '^src/(.*)$': '<rootDir>/src/$1', // Add mapping for 'src' alias
   },
   resetMocks: true, // Reset mocks before each test
   clearMocks: true, // Clear mock calls and instances between tests
