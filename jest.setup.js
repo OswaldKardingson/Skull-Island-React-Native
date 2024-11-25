@@ -29,12 +29,6 @@ jest.mock('react-native-reanimated', () => {
   return Reanimated;
 });
 
-// Suppress Animated NativeDriver warnings during tests
-jest.mock('react-native/Libraries/Animated/NativeAnimatedHelper', () => ({
-  addListener: jest.fn(),
-  removeListeners: jest.fn(),
-}));
-
 // Mock theme provider
 jest.mock('src/theme/default', () => ({
   theme: {
@@ -54,10 +48,10 @@ console.warn = (...args) => {
   originalConsoleWarn(...args);
 };
 
-// Silence errors for missing modules
+// Silence errors for specific warnings
 const originalConsoleError = console.error;
 console.error = (...args) => {
-  if (args[0]?.includes('NativeAnimatedHelper')) {
+  if (args[0]?.includes('SpecificWarningToIgnore')) {
     return;
   }
   originalConsoleError(...args);
