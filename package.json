@@ -31,7 +31,6 @@
     "react-native-vector-icons": "^10.2.0",
     "react-redux": "^9.1.2",
     "redux": "^5.0.1",
-    "styled-components": "^6.1.13",
     "yup": "^1.4.0"
   },
   "devDependencies": {
@@ -39,12 +38,15 @@
     "@react-native-community/cli": "^10.2.7",
     "@react-native-community/cli-platform-android": "^10.2.0",
     "@testing-library/jest-native": "^5.4.3",
+    "@testing-library/react": "^16.0.1",
     "@testing-library/react-native": "^12.8.1",
-    "jest": "^29.0.0",
+    "jest": "^29.7.0",
     "jest-environment-jsdom": "^29.7.0",
     "jest-junit": "^16.0.0",
+    "jest-styled-components": "^7.2.0",
     "metro-react-native-babel-transformer": "^0.77.0",
     "react-native-web": "^0.19.13",
-    "react-test-renderer": "18.2.0"
+    "react-test-renderer": "18.2.0",
+    "styled-components": "^6.1.13"
   }
 }
