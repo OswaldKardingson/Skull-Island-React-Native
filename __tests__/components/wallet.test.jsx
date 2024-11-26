@@ -19,7 +19,7 @@ import {
   WalletBackButton,
   WalletNewPhraseButton,
   WalletCreateButton,
-} from './wallet'; // Adjust the import path to match your folder structure
+} from '../../components/wallet'; // Adjust the import path to match your folder structure
 
 const mockTheme = {
   width: 360,

@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import Splash from './Splash';
+import Splash from '../../components/Splash';
 
 const mockTheme = {
   width: 360,

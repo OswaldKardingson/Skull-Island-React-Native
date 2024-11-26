@@ -1,6 +1,6 @@
 import React from 'react';
 import { render } from '@testing-library/react-native';
-import Sidebar from '../Sidebar'; // Adjust the import path as necessary
+import Sidebar from '../../components/Sidebar'; // Adjust the import path as necessary
 
 describe('Sidebar Component', () => {
   it('renders the Sidebar with correct text', () => {

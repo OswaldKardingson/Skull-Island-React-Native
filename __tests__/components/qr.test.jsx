@@ -11,7 +11,7 @@ import {
   QrTopRight,
   QrBottomRight,
   QrCancelButton,
-} from '../components/qr'; // Adjust the path if needed
+} from '../../components/qr'; // Adjust the path if needed
 
 // Mock theme object for testing
 const theme = {

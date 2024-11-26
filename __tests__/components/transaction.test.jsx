@@ -11,7 +11,7 @@ import {
   ZTransactionButtonBar,
   ZTransactionBackButton,
   ZTransactionExplorerButton,
-} from './transaction'; // Ensure the path matches your file structure
+} from '../../components/transaction'; // Ensure the path matches your file structure
 
 const mockTheme = {
   width: 360,

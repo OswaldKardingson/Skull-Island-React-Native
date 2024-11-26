@@ -24,7 +24,7 @@ import {
   PassPhraseQRBase,
   PassPhraseQR,
   PassPhraseBackButton,
-} from '../components/passphrase'; // Adjust the path if needed
+} from '../../components/passphrase'; // Adjust the path if needed
 import { ThemeProvider } from 'styled-components';
 
 // Mock theme for testing

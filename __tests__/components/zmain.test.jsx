@@ -12,7 +12,7 @@ import {
   ZMainMiddleSection,
   ZMainAddressListHeader,
   ZMainTransactionList,
-} from './zmain'; // Ensure the path matches your project structure
+} from '../../components/zmain'; // Ensure the path matches your project structure
 
 const mockTheme = {
   width: 360,

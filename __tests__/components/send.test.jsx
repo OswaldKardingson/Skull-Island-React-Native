@@ -19,7 +19,7 @@ import {
   SendSummarySent,
   SendSummaryAmountArea,
   SendSummaryToAddress,
-} from '../components/send'; // Adjust the import path if needed
+} from '../../components/send'; // Adjust the import path if needed
 import { ThemeProvider } from 'styled-components';
 
 // Mock theme for testing

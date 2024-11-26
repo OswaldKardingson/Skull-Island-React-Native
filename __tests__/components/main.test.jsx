@@ -13,7 +13,7 @@ import {
   MenuContent,
   MenuButton,
   MenuButtonLine,
-} from '../components/main'; // Adjust the path if needed
+} from '../../components/main'; // Adjust the path if needed
 import { ThemeProvider } from 'styled-components';
 
 // Mock theme

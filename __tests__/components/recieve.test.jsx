@@ -15,7 +15,7 @@ import {
   ReceiveQRBase,
   ReceiveQR,
   ReceiveBackButton,
-} from '../components/receive'; // Adjust the path if needed
+} from '../../components/receive'; // Adjust the path if needed
 import { ThemeProvider } from 'styled-components';
 
 // Mock theme for testing

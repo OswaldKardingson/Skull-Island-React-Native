@@ -15,7 +15,7 @@ import {
   Col3Top,
   Col3Bottom,
   ZTransactionMemoButton,
-} from './transactionList'; // Ensure the path matches your file structure
+} from '../../components/transactionList'; // Ensure the path matches your file structure
 
 const mockTheme = {
   width: 360,

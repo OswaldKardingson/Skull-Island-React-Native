@@ -15,7 +15,7 @@ import {
   ChainSyncBalanceErrorMsg1,
   ChainSyncBalanceErrorMsg2,
   ChainSyncBalanceUnits,
-} from '../components/chainsync'; // Adjust the path if necessary
+} from '../../components/chainsync'; // Adjust the path if necessary
 
 describe('ChainSync Styled Components', () => {
   it('renders ChainSyncBody with correct styles', () => {

@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react-native';
-import Button from '../components/Button'; // Adjust the path as needed
+import Button from '../../components/Button'; // Adjust the path as needed
 
 describe('Button Component', () => {
   it('renders the button with default styles and title', () => {

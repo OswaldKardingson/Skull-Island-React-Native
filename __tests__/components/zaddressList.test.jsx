@@ -17,7 +17,7 @@ import {
   Col5Div,
   ZAddressButton,
   Spacer,
-} from './zaddressList'; // Adjust the import path to match your folder structure
+} from '../../components/zaddressList'; // Adjust the import path to match your folder structure
 
 const mockTheme = {
   width: 360,
