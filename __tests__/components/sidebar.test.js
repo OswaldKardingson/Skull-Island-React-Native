@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { render } from '@testing-library/react-native';
-import Sidebar from '../../src/components/Sidebar';
+import { Sidebar } from '../../src/components/Sidebar';
 
 describe('Sidebar Component', () => {
     it('renders correctly', () => {

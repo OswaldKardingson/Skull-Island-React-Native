@@ -1,6 +1,6 @@
 import React from 'react';
 import { render } from '@testing-library/react-native';
-import ZAddressList from '../../src/components/zaddressList';
+import { ZAddressList } from '../../src/components/zaddressList';
 
 describe('ZAddressList Component', () => {
   it('renders correctly', () => {

@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { render } from '@testing-library/react-native';
-import Splash from '../../src/components/splash';
+import { Splash } from '../../src/components/splash';
 
 describe('Splash Component', () => {
     it('renders correctly', () => {

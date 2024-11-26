@@ -1,5 +1,5 @@
 import { render } from '@testing-library/react-native';
-import Button from '../../src/components/Button';
+import { Button } from '../../src/components/Button';
 
 describe('Button Component', () => {
     it('renders correctly', () => {

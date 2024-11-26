@@ -1,6 +1,6 @@
 import React from 'react';
 import { render } from '@testing-library/react-native';
-import Transaction from '../../src/components/transaction';
+import { Transaction } from '../../src/components/transaction';
 
 describe('Transaction Component', () => {
   it('renders correctly', () => {

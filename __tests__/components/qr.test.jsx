@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { render } from '@testing-library/react-native';
-import QR from '../../src/components/qr';
+import { QR } from '../components/qr';
 
 describe('QR Component', () => {
     it('renders correctly', () => {

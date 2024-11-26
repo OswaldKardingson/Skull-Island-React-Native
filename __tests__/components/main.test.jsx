@@ -1,6 +1,6 @@
 import React from 'react';
 import { render } from '@testing-library/react-native';
-import Main from '../../src/components/main';
+import { Main } from '../../src/components/main';
 
 describe('Main Component', () => {
     it('renders without crashing', () => {

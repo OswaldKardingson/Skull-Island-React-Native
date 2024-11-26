@@ -1,5 +1,6 @@
 import { render } from '@testing-library/react-native';
-import AddressDropdown from '../../src/components/addressdropdown';
+import { AddressDropdown } from '../components/addressdropdown';
+
 
 describe('AddressDropdown Component', () => {
     it('renders correctly', () => {

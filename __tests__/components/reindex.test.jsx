@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { render } from '@testing-library/react-native';
-import Reindex from '../../src/components/reindex';
+import { Reindex } from '../../src/components/reindex';
 
 describe('Reindex Component', () => {
     it('renders correctly', () => {
