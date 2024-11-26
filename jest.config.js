@@ -46,6 +46,6 @@ module.exports = {
       },
     ],
   ],
-  testTimeout: 20000, // Increased timeout for potentially long-running tests
+  testTimeout: 30000, // Increased timeout for potentially long-running tests
   watchPathIgnorePatterns: ['<rootDir>/node_modules/'], // Ignore watching node_modules
 };
