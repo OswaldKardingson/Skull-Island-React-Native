@@ -53,6 +53,26 @@ jest.mock('src/theme/default', () => ({
   },
 }));
 
+// Mock gesture handler
+jest.mock('react-native-gesture-handler', () => {
+  return {
+    Swipeable: jest.fn(),
+    DrawerLayout: jest.fn(),
+    State: {},
+    GestureHandlerRootView: ({ children }) => children,
+    TouchableHighlight: jest.requireActual('react-native').TouchableHighlight,
+    TouchableOpacity: jest.requireActual('react-native').TouchableOpacity,
+    TouchableNativeFeedback: jest.requireActual('react-native').TouchableNativeFeedback,
+    TouchableWithoutFeedback: jest.requireActual('react-native').TouchableWithoutFeedback,
+    ScrollView: jest.requireActual('react-native').ScrollView,
+    TextInput: jest.requireActual('react-native').TextInput,
+    FlatList: jest.requireActual('react-native').FlatList,
+    BaseButton: jest.fn(),
+    RectButton: jest.fn(),
+    BorderlessButton: jest.fn(),
+  };
+});
+
 // Silence console warnings for deprecated methods
 const originalConsoleWarn = console.warn;
 console.warn = (...args) => {
