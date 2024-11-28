@@ -1,1 +1,0 @@
-Logic for Redux or app state management to be refactored.
