@@ -21,6 +21,7 @@ module.exports = {
     '^@/(.*)$': '<rootDir>/src/$1', // Alias for importing from src
     '^src/(.*)$': '<rootDir>/src/$1', // Add mapping for 'src' alias
     '\\.css$': 'identity-obj-proxy', // Mock CSS imports
+    '^.+\\.svg$': '<rootDir>/__mocks__/svgMock.js', // Mock SVG files
   },
   resetMocks: true, // Reset mocks before each test
   clearMocks: true, // Clear mock calls and instances between tests
@@ -30,6 +31,8 @@ module.exports = {
     '!**/node_modules/**', // Exclude node_modules
     '!**/jest.setup.js', // Exclude setup file
     '!src/**/*.d.ts', // Exclude TypeScript declaration files
+    '!src/**/*.mock.{js,jsx,ts,tsx}', // Exclude mock files
+    '!src/**/*.{stories,test}.{js,jsx,ts,tsx}', // Exclude stories and test files
   ],
   coverageDirectory: '<rootDir>/coverage', // Directory for coverage reports
   cacheDirectory: '<rootDir>/tmp/jest_cache', // Cache directory for Jest
@@ -48,4 +51,8 @@ module.exports = {
   ],
   testTimeout: 30000, // Increased timeout for potentially long-running tests
   watchPathIgnorePatterns: ['<rootDir>/node_modules/'], // Ignore watching node_modules
+  watchPlugins: [
+    'jest-watch-typeahead/filename',
+    'jest-watch-typeahead/testname',
+  ],
 };
