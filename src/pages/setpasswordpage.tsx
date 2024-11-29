@@ -9,11 +9,10 @@ import {
   Image,
 } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-
 import { saltHashPassword, PwSalt } from '../utils/hash';
 import { setWalletPassword } from '@actions/Settings'; 
 import { setActivePassword } from '@actions/Context';
-import eye from '@assets/svg/eye.svg'; // Replace with an actual image source if SVG is unsupported.
+import eye from '@assets/svg/eye'; // Replace with an actual image source if SVG is unsupported.
 
 interface SetPasswordPageProps {
   onComplete: () => void; // Callback function after password is set
