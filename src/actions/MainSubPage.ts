@@ -21,7 +21,7 @@ export type MainSubPageAction =
   | { type: typeof SET_SUB_PAGE_REINDEX; reindexPage: string }
   | { type: typeof SET_SUB_PAGE_TRANSACTION_SCROLL; transactionScroll: boolean }
   | { type: typeof SET_SUB_PAGE_TRANSACTION_SCROLL_POS; transactionScrollPos: number }
-  | { type: typeof SET_SUB_PAGE_ADDRESSLIST; addressList: string[] }
+  | { type: typeof SET_SUB_PAGE_ADDRESSLIST; addressList: string } // Fixed to accept a string
   | { type: typeof SET_SUB_PAGE_TRANSACTION; transactionPage: string }
   | { type: typeof SET_SUB_PAGE_RECONNECT; reconnectPage: string };
 
@@ -66,9 +66,9 @@ export const setTransactionScrollPos = (transactionScrollPos: number): MainSubPa
   transactionScrollPos,
 });
 
-export const setAddressList = (addressList: string[]): MainSubPageAction => ({
+export const setAddressList = (visibility: string): MainSubPageAction => ({
   type: SET_SUB_PAGE_ADDRESSLIST,
-  addressList,
+  addressList: visibility, // Updated to accept a string (visibility)
 });
 
 export const setTransactionPage = (transactionPage: string): MainSubPageAction => ({
