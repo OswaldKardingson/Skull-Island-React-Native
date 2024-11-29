@@ -4,14 +4,21 @@
  *
  * @format
  */
+const path = require('path');
 const { getDefaultConfig } = require('@react-native/metro-config');
 
-const defaultConfig = getDefaultConfig(__dirname);
+module.exports = (async () => {
+  const defaultConfig = await getDefaultConfig(__dirname);
 
-module.exports = {
-  ...defaultConfig,
-  resolver: {
-    ...defaultConfig.resolver,
-    sourceExts: [...defaultConfig.resolver.sourceExts, 'jsx', 'js', 'ts', 'tsx', 'json'], // Add file extensions
-  },
-};
+  return {
+    ...defaultConfig,
+    transformer: {
+      babelTransformerPath: require.resolve('react-native-svg-transformer'), // Add SVG transformer
+    },
+    resolver: {
+      assetExts: defaultConfig.resolver.assetExts.filter((ext) => ext !== 'svg'), // Exclude SVG from assets
+      sourceExts: [...defaultConfig.resolver.sourceExts, 'svg'], // Add SVG to source extensions
+    },
+    projectRoot: path.resolve(__dirname), // Set the correct project root
+  };
+})();
