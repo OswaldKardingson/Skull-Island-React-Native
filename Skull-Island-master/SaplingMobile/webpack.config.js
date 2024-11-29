@@ -1,1 +1,0 @@
-// Webpack config not applicable to React Native. Placeholder left.
