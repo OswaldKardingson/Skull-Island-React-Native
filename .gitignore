@@ -1,5 +1,3 @@
-# React Native gitignore example
-
 # Node modules
 node_modules/
 
@@ -14,6 +12,7 @@ Thumbs.db
 # Generated files
 android/app/build/
 ios/build/
+*.tsbuildinfo # TypeScript build info
 
 # IDE-specific files
 .vscode/
@@ -23,3 +22,7 @@ ios/build/
 # Debug files
 *.bak
 *.swp
+
+# TypeScript cache and artifacts
+dist/
+*.tsbuildinfo
