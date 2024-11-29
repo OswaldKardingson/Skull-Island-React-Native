@@ -1,11 +1,23 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, Alert, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
+import {
+  View,
+  Text,
+  TextInput,
+  Alert,
+  StyleSheet,
+  TouchableOpacity,
+  ScrollView,
+} from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import QRCodeScanner from 'react-native-qrcode-scanner';
 import Spinner from 'react-native-spinkit';
-
-import { coins } from '../utils/coins';
-import { encrypt, saltHashPassword, KeySalt } from '../utils/hash';
+import { RootState } from '@store/store'; 
+import { coins } from '@utils/coins';
+import {
+  encrypt,
+  saltHashPassword,
+  KeySalt,
+} from '@utils/hash';
 import {
   setSeedPhrase,
   setBirthday,
@@ -23,22 +35,22 @@ import {
   restoreWallet,
   checkSeedPhrase,
   getSeedPhrase,
-  save,
-  encryptionstatus,
-  encryptWallet,
-  unlock,
-} from '../utils/litewallet';
+} from '@utils/litewallet';
 
-const SetWalletPage = () => {
-  const [openSection, setOpenSection] = useState(1);
-  const [tempSeedPhrase, setTempSeedPhrase] = useState('');
-  const [tempBirthday, setTempBirthday] = useState(0);
-  const [tempSeedPhraseInvalid, setTempSeedPhraseInvalid] = useState('');
-  const [createWallet, setCreateWallet] = useState(false);
+interface SetWalletPageProps {
+  onWalletCreated?: () => void; // Callback for when the wallet is successfully created
+}
 
-  const context = useSelector((state) => state.context);
-  const settings = useSelector((state) => state.settings);
-  const secrets = useSelector((state) => state.secrets);
+const SetWalletPage: React.FC<SetWalletPageProps> = ({ onWalletCreated }) => {
+  const [openSection, setOpenSection] = useState<number>(1);
+  const [tempSeedPhrase, setTempSeedPhrase] = useState<string>('');
+  const [tempBirthday, setTempBirthday] = useState<number>(0);
+  const [tempSeedPhraseInvalid, setTempSeedPhraseInvalid] = useState<boolean>(false);
+  const [createWallet, setCreateWallet] = useState<boolean>(false);
+
+  const context = useSelector((state: RootState) => state.context);
+  const settings = useSelector((state: RootState) => state.settings);
+  const secrets = useSelector((state: RootState) => state.secrets);
 
   const dispatch = useDispatch();
 
@@ -47,15 +59,19 @@ const SetWalletPage = () => {
     setTempBirthday(secrets.birthday);
   }, [secrets]);
 
-  const handleQRScan = (event) => {
-    const data = JSON.parse(event.data);
-    setTempSeedPhrase(data.passphrase);
-    setTempBirthday(data.height);
-    checkSeed(data.passphrase);
-    dispatch(setQrScanning(false));
+  const handleQRScan = (event: { data: string }) => {
+    try {
+      const data = JSON.parse(event.data);
+      setTempSeedPhrase(data.passphrase);
+      setTempBirthday(data.height);
+      checkSeed(data.passphrase);
+      dispatch(setQrScanning(false));
+    } catch (error) {
+      Alert.alert('Error', 'Invalid QR Code format.');
+    }
   };
 
-  const checkSeed = async (seed) => {
+  const checkSeed = async (seed: string) => {
     const words = seed.split(' ');
     if (words.length === 24) {
       try {
@@ -94,6 +110,7 @@ const SetWalletPage = () => {
           dispatch(setHasExistingWallet(true));
           dispatch(setSeedPhrase(seed.seed));
           dispatch(setBirthday(seed.birthday));
+          if (onWalletCreated) onWalletCreated();
         }
       } catch (err) {
         console.error('Wallet restoration failed', err);
@@ -120,7 +137,11 @@ const SetWalletPage = () => {
       case 1:
         return (
           <View>
-            <TouchableOpacity style={styles.button} onPress={() => setOpenSection(2)}>
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => setOpenSection(2)}
+              testID="new-wallet-button"
+            >
               <Text style={styles.buttonText}>New Wallet</Text>
             </TouchableOpacity>
             <TouchableOpacity
@@ -129,7 +150,9 @@ const SetWalletPage = () => {
                 setTempSeedPhrase('');
                 setTempBirthday(coins[settings.currentCoin].branchHeight.sapling);
                 setOpenSection(3);
-              }}>
+              }}
+              testID="recover-wallet-button"
+            >
               <Text style={styles.buttonText}>Recover Wallet</Text>
             </TouchableOpacity>
           </View>
@@ -143,15 +166,28 @@ const SetWalletPage = () => {
               style={styles.input}
               value={tempSeedPhrase}
               editable={false}
+              testID="new-passphrase-input"
             />
-            <TouchableOpacity style={styles.button} onPress={getNewPhrase}>
+            <TouchableOpacity
+              style={styles.button}
+              onPress={getNewPhrase}
+              testID="generate-new-phrase-button"
+            >
               <Text style={styles.buttonText}>New Phrase</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.button} onPress={() => setOpenSection(1)}>
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => setOpenSection(1)}
+              testID="back-button"
+            >
               <Text style={styles.buttonText}>Back</Text>
             </TouchableOpacity>
             {createWallet && (
-              <TouchableOpacity style={styles.button} onPress={restoreWalletHandler}>
+              <TouchableOpacity
+                style={styles.button}
+                onPress={restoreWalletHandler}
+                testID="create-wallet-button"
+              >
                 <Text style={styles.buttonText}>Create Wallet</Text>
               </TouchableOpacity>
             )}
@@ -166,6 +202,7 @@ const SetWalletPage = () => {
               style={styles.input}
               value={tempSeedPhrase}
               onChangeText={setTempSeedPhrase}
+              testID="recover-passphrase-input"
             />
             <Text style={styles.title}>Recovery Height:</Text>
             <TextInput
@@ -173,8 +210,13 @@ const SetWalletPage = () => {
               value={tempBirthday.toString()}
               keyboardType="numeric"
               onChangeText={(text) => setTempBirthday(parseInt(text) || 0)}
+              testID="recovery-height-input"
             />
-            <TouchableOpacity style={styles.button} onPress={() => setOpenSection(1)}>
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => setOpenSection(1)}
+              testID="back-recover-button"
+            >
               <Text style={styles.buttonText}>Back</Text>
             </TouchableOpacity>
           </View>
@@ -182,7 +224,7 @@ const SetWalletPage = () => {
 
       case 4:
         return (
-          <View style={styles.spinnerContainer}>
+          <View style={styles.spinnerContainer} testID="loading-spinner">
             <Text style={styles.title}>Initializing...</Text>
             <Spinner isVisible size={50} type="ThreeBounce" color="#bb9645" />
           </View>
@@ -196,7 +238,7 @@ const SetWalletPage = () => {
   return (
     <ScrollView style={styles.container}>
       {context.qrScanning ? (
-        <QRCodeScanner onRead={handleQRScan} />
+        <QRCodeScanner onRead={handleQRScan} testID="qr-code-scanner" />
       ) : (
         renderSection()
       )}
