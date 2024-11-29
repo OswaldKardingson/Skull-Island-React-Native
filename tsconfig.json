@@ -10,21 +10,37 @@
     "forceConsistentCasingInFileNames": true,
     "baseUrl": "./",
     "paths": {
+      "@theme/*": ["src/theme/*"],
+      "@screens/*": ["src/screens/*"],
+      "@reducers/*": ["src/reducers/*"],
+      "@store/*": ["src/store/*"],
+      "@utils/*": ["src/utils/*"],
       "@actions/*": ["src/actions/*"],
       "@pages/*": ["src/pages/*"],
       "@pagecomponents/*": ["src/pagecomponents/*"],
-      "@hooks/*": ["src/hooks/*"], 
+      "@hooks/*": ["src/hooks/*"],
       "@components/*": ["src/components/*"],
       "@context/*": ["src/context/*"],
       "@navigation/*": ["src/navigation/*"],
-      "@assets/*": ["assets/*"]
+      "@assets/*": ["src/assets/*"]
     },
     "resolveJsonModule": true,
     "allowSyntheticDefaultImports": true,
-    "typeRoots": ["./node_modules/@types"],
+    "typeRoots": ["./node_modules/@types", "./src/types"], // Add "./src/types"
     "types": ["jest", "@testing-library/react-hooks"],
-    "strictNullChecks": true
+    "strictNullChecks": true,
+    "lib": ["esnext", "dom"]
   },
-  "include": ["src/**/*", "**/*.test.tsx", "**/*.test.ts", "assets/**/*"],
-  "exclude": ["node_modules", "babel.config.js", "metro.config.js", "jest.config.js"]
+  "include": [
+    "src/**/*",
+    "**/*.test.tsx",
+    "**/*.test.ts",
+    "assets/**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "babel.config.js",
+    "metro.config.js",
+    "jest.config.js"
+  ]
 }
