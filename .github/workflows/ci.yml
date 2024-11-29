@@ -28,9 +28,19 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      # Run tests
+      # Run tests for all subdirectories in src/__tests__
       - name: Run Tests
-        run: npm test
+        run: |
+          npm run test -- src/__tests__/components/**/*.test.tsx
+          npm run test -- src/__tests__/containers/**/*.test.tsx
+          npm run test -- src/__tests__/context/**/*.test.tsx
+          npm run test -- src/__tests__/hooks/**/*.test.tsx
+          npm run test -- src/__tests__/navigation/**/*.test.tsx
+          npm run test -- src/__tests__/pagecomponents/**/*.test.tsx
+          npm run test -- src/__tests__/pages/**/*.test.tsx
+          npm run test -- src/__tests__/screens/**/*.test.tsx
+          npm run test -- src/__tests__/theme/**/*.test.tsx
+          npm run test -- src/__tests__/utils/**/*.test.tsx
 
       # Generate coverage report
       - name: Generate Coverage Report
