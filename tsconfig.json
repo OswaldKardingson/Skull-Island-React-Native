@@ -1,15 +1,16 @@
 {
   "compilerOptions": {
-    "target": "ESNext",
-    "module": "ESNext",
-    "jsx": "react",
-    "strict": true,
-    "moduleResolution": "node",
-    "esModuleInterop": true,
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
-    "baseUrl": "./",
+    "target": "ESNext", // Supports modern JavaScript features
+    "module": "ESNext", // Enables ES Module support
+    "jsx": "react", // Supports React JSX syntax
+    "strict": true, // Enables strict type checking
+    "moduleResolution": "node", // Resolves modules like Node.js
+    "esModuleInterop": true, // Allows default imports for CommonJS modules
+    "skipLibCheck": true, // Skips type checks for libraries
+    "forceConsistentCasingInFileNames": true, // Ensures consistent casing
+    "baseUrl": "./", // Base directory for resolving paths
     "paths": {
+      "@config/*": ["src/config/*"],
       "@theme/*": ["src/theme/*"],
       "@screens/*": ["src/screens/*"],
       "@reducers/*": ["src/reducers/*"],
@@ -24,23 +25,23 @@
       "@navigation/*": ["src/navigation/*"],
       "@assets/*": ["src/assets/*"]
     },
-    "resolveJsonModule": true,
-    "allowSyntheticDefaultImports": true,
-    "typeRoots": ["./node_modules/@types", "./src/types"], // Add "./src/types"
-    "types": ["jest", "@testing-library/react-hooks"],
-    "strictNullChecks": true,
-    "lib": ["esnext", "dom"]
+    "resolveJsonModule": true, // Allows importing JSON files
+    "allowSyntheticDefaultImports": true, // Default imports for ES modules
+    "typeRoots": ["./node_modules/@types", "./src/types"], // Include custom types
+    "types": ["jest", "@testing-library/react-hooks"], // Include Jest and Testing Library types
+    "strictNullChecks": true, // Strict null safety
+    "lib": ["esnext", "dom"] // Modern JavaScript features and DOM
   },
   "include": [
-    "src/**/*",
-    "**/*.test.tsx",
-    "**/*.test.ts",
-    "assets/**/*"
+    "src/**/*", // All source files
+    "**/*.test.tsx", // Test files (React)
+    "**/*.test.ts", // Test files (TypeScript)
+    "assets/**/*" // Include asset files
   ],
   "exclude": [
-    "node_modules",
-    "babel.config.js",
-    "metro.config.js",
-    "jest.config.js"
+    "node_modules", // Exclude dependencies
+    "babel.config.js", // Babel config
+    "metro.config.js", // Metro bundler config
+    "jest.config.js" // Jest config
   ]
 }
