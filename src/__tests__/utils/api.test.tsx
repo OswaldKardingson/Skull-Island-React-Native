@@ -3,7 +3,7 @@ import { fetchData, ApiResponse } from '@utils/api';
 global.fetch = jest.fn();
 
 describe('fetchData', () => {
-  const API_BASE_URL = 'https://api.example.com';
+  const API_BASE_URL = 'https://lightd1.pirate.black';
   const mockEndpoint = 'test-endpoint';
   const mockResponse = { message: 'Success' };
 
