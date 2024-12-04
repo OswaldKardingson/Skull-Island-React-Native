@@ -5,8 +5,10 @@ import activateKeepAwake from 'react-native-keep-awake'; // Prevent screen sleep
 import BackgroundFetch from 'react-native-background-fetch'; // Background sync
 import { generateMerkleTree, verifyMerkleProof } from '@utils/merklehelpers'; // Merkle helpers
 
-// Global variable to track the current server being used
+// Global variables
 let currentServerIndex = 0;
+let isBackgroundSync = false; // Prevents lifecycle conflicts during background sync
+const DEFAULT_CHUNK_SIZE = 100;
 
 /**
  * Get the current base URL for API calls.
@@ -44,7 +46,7 @@ export interface ApiResponse<T> {
 // Interface for fetchData function props
 export interface FetchDataProps {
   endpoint: string; // API endpoint to call
-  testID?: string;  // Optional testID for testing
+  testID?: string; // Optional testID for testing
 }
 
 /**
@@ -66,20 +68,17 @@ export const fetchData = async <T = any>({ endpoint, testID }: FetchDataProps): 
       },
     });
 
-    // Check for HTTP errors
     if (!response.ok) {
       throw new Error(`Error ${response.status}: ${response.statusText}`);
     }
 
-    // Parse the JSON response
     const data: T = await response.json();
     return { data };
   } catch (error) {
     console.error('Error fetching data:', error);
 
-    // Explicitly handle 'unknown' error type
     const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
-    rotateServer(); // Switch to the next server
+    rotateServer();
     return { data: null, error: errorMessage };
   }
 };
@@ -91,11 +90,13 @@ async function saveSyncProgress(progress: number) {
 
 async function getSyncProgress(): Promise<number> {
   const progress = await AsyncStorage.getItem('syncProgress');
-  return progress ? parseInt(progress, 10) : 0; // Default to 0 if no progress is saved
+  return progress ? parseInt(progress, 10) : 0;
 }
 
 // **2. Lifecycle Handling**
 AppState.addEventListener('change', (nextAppState) => {
+  if (isBackgroundSync) return; // Skip lifecycle handling during background sync
+
   if (nextAppState === 'background') {
     console.log('App moved to background. Pausing sync.');
   } else if (nextAppState === 'active') {
@@ -103,22 +104,52 @@ AppState.addEventListener('change', (nextAppState) => {
   }
 });
 
-// **3. Chunked Syncing**
+// **3. Incremental Sync Logic**
+async function syncBlocksIncrementally(): Promise<void> {
+  try {
+    const progress = await getSyncProgress();
+    const latestBlockResponse = await fetchData<{ latestBlock: number }>({
+      endpoint: `latest-block`,
+    });
+
+    if (!latestBlockResponse.data || latestBlockResponse.error) {
+      throw new Error(latestBlockResponse.error || 'Failed to fetch the latest block height');
+    }
+
+    const latestBlock = latestBlockResponse.data.latestBlock;
+
+    console.log(`Starting sync from block ${progress + 1} to ${latestBlock}`);
+    await syncBlocks(progress + 1, latestBlock);
+
+    console.log('Synchronization completed successfully');
+  } catch (error) {
+    console.error('Error during incremental sync:', error);
+  }
+}
+
+// **4. Chunked Syncing with Parallelization**
 async function syncBlocks(startBlock: number, endBlock: number): Promise<void> {
-  for (let i = startBlock; i <= endBlock; i += 100) {
-    const batchEnd = Math.min(i + 99, endBlock);
+  const chunkSize = DEFAULT_CHUNK_SIZE;
+  const chunkPromises: Promise<{ blocks: string[] }>[] = [];
 
-    // Fetch blocks with retry logic
-    const blocksResponse = await fetchBlocksWithRetry(i, batchEnd);
+  for (let i = startBlock; i <= endBlock; i += chunkSize) {
+    const batchEnd = Math.min(i + chunkSize - 1, endBlock);
+    chunkPromises.push(fetchBlocksWithRetry(i, batchEnd));
+  }
 
-    // Extract the blocks array from the response object
-    const { blocks } = blocksResponse;
+  try {
+    const chunkResults = await Promise.all(chunkPromises);
 
-    // Pass the blocks array to processBlocks
-    await processBlocks(blocks);
+    for (const chunkResult of chunkResults) {
+      if (chunkResult.blocks) {
+        const validBlocks = validateBlocks(chunkResult.blocks);
+        await processBlocks(validBlocks);
+      }
+    }
 
-    // Save progress after each batch
-    await saveSyncProgress(batchEnd);
+    await saveSyncProgress(endBlock);
+  } catch (error) {
+    console.error('Error syncing blocks in parallel:', error);
   }
 }
 
@@ -128,8 +159,39 @@ async function syncBlocks(startBlock: number, endBlock: number): Promise<void> {
  */
 async function processBlocks(blocks: string[]): Promise<void> {
   for (const block of blocks) {
-    // Replace this with actual block processing logic (e.g., validation or saving)
-    console.log(`Processing block: ${block}`);
+    try {
+      const blockData = JSON.parse(block);
+
+      if (!blockData.hash || !blockData.transactions) {
+        console.error(`Invalid block data: ${block}`);
+        continue;
+      }
+
+      await saveBlockToStorage(blockData);
+
+      for (const transaction of blockData.transactions) {
+        await processTransaction(transaction);
+      }
+    } catch (error) {
+      console.error(`Error processing block: ${block}`, error);
+    }
+  }
+}
+
+async function saveBlockToStorage(blockData: any): Promise<void> {
+  try {
+    await AsyncStorage.setItem(`block_${blockData.hash}`, JSON.stringify(blockData));
+    console.log(`Saved block with hash: ${blockData.hash}`);
+  } catch (error) {
+    console.error(`Error saving block to storage: ${blockData.hash}`, error);
+  }
+}
+
+async function processTransaction(transaction: any): Promise<void> {
+  try {
+    console.log(`Processing transaction: ${JSON.stringify(transaction)}`);
+  } catch (error) {
+    console.error(`Error processing transaction: ${transaction}`, error);
   }
 }
 
@@ -165,20 +227,31 @@ async function fetchBlocksWithRetry(
   throw new Error('Failed to fetch blocks after retries');
 }
 
-// **4. User Feedback**
-async function showSyncProgress(currentBlock: number, totalBlocks: number) {
-  const progressPercentage = (currentBlock / totalBlocks) * 100;
-  console.log(`Sync Progress: ${progressPercentage.toFixed(2)}%`);
+function validateBlocks(blocks: string[]): string[] {
+  return blocks.filter((block) => {
+    try {
+      const parsedBlock = JSON.parse(block);
+      return !!parsedBlock.hash && !!parsedBlock.transactions;
+    } catch {
+      return false;
+    }
+  });
 }
 
 // **5. Background Sync**
 BackgroundFetch.configure(
-  { minimumFetchInterval: 15 }, // Sync every 15 minutes
+  { minimumFetchInterval: 15 },
   async (taskId) => {
     console.log('[BackgroundFetch] Start');
-    const progress = await getSyncProgress();
-    await syncBlocks(progress, 10000); // Replace 10000 with total blocks
-    BackgroundFetch.finish(taskId);
+    isBackgroundSync = true;
+    try {
+      await syncBlocksIncrementally();
+    } catch (error) {
+      console.error('[BackgroundFetch] Error during sync:', error);
+    } finally {
+      isBackgroundSync = false;
+      BackgroundFetch.finish(taskId);
+    }
   },
   (error) => {
     console.error('[BackgroundFetch] Failed to start', error);
@@ -221,10 +294,9 @@ async function syncDataWithMerkle(localData: string[]): Promise<string[]> {
     return updatedData;
   } catch (error) {
     console.error('Error during Merkle synchronization:', error);
-
-    // Explicitly handle 'unknown' error type
     const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
     rotateServer();
     return localData;
   }
 }
+  
